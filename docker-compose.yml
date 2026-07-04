@@ -1,0 +1,47 @@
+version: '3.8'
+
+networks:
+  zerotrust_net:
+    driver: bridge
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - zerotrust_net
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - LOG_LEVEL=INFO
+    depends_on:
+      - redis
+    networks:
+      - zerotrust_net
+    volumes:
+      # Mount the sqlite DB directory to persist telemetry logs
+      - ./data:/app/data
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      # Map host port 3000 to Nginx port 80
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - zerotrust_net
+
+volumes:
+  redis_data:

@@ -1,0 +1,22 @@
+scanner:
+  high_risk_patterns:
+    - "ignore\\s+previous\\s+instructions"
+    - "system\\s+prompt"
+    - "bypass\\s+restrictions"
+    - "drop\\s+table"
+    - "rm\\s+-rf"
+    - "/bin/bash"
+    - "curl\\s+"
+    - "wget\\s+"
+    - "base64"
+
+scrubber:
+  dlp_patterns:
+    AWS_KEY: "(?i)\\b(AKIA[0-9A-Z]{16})\\b"
+    GENERIC_API_KEY: "(?i)\\b([a-zA-Z0-9]{32,})\\b"
+    CREDIT_CARD: "\\b(?:\\d[ -]*?){13,16}\\b"
+
+validator:
+  allowed_tools:
+    read_users_db:
+      schema_type: "DatabaseReadSchema"
