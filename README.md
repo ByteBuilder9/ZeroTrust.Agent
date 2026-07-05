@@ -19,6 +19,41 @@ ZeroTrust.Agent is an enterprise-grade, transparent middleware proxy designed to
 3. **Telemetry Database:** SQLite / aiosqlite
 4. **Control Plane:** React + TailwindCSS + Vite + Nginx
 
+##The Security Pipeline
+                    User Request
+                         │
+                         ▼
+             ┌────────────────────┐
+             │   ZeroTrust.Agent  │
+             └────────────────────┘
+                         │
+     ┌───────────────────┼────────────────────┐
+     ▼                   ▼                    ▼
+
+ Intent Scanner     Context Ledger      Telemetry Engine
+ (Prompt Defense)   (Redis Trust)        (SQLite Logging)
+
+                         │
+                         ▼
+
+                OpenAI Compatible LLM
+
+                         │
+
+                 Model Response
+
+                         │
+     ┌───────────────────┼────────────────────┐
+     ▼                   ▼                    ▼
+
+ Tool Validator     DLP Scrubber      Event Logging
+
+                         │
+                         ▼
+
+                  Safe Response
+                  
+
 ## Quickstart
 
 Run the entire ZeroTrust.Agent stack (Frontend Dashboard, Backend Proxy, and Redis) locally using Docker Compose.
