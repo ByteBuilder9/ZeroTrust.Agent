@@ -20,39 +20,48 @@ ZeroTrust.Agent is an enterprise-grade, transparent middleware proxy designed to
 4. **Control Plane:** React + TailwindCSS + Vite + Nginx
 
 ##The Security Pipeline
-                    User Request
-                         │
-                         ▼
-             ┌────────────────────┐
-             │   ZeroTrust.Agent  │
-             └────────────────────┘
-                         │
-     ┌───────────────────┼────────────────────┐
-     ▼                   ▼                    ▼
-
- Intent Scanner     Context Ledger      Telemetry Engine
- (Prompt Defense)   (Redis Trust)        (SQLite Logging)
-
-                         │
-                         ▼
-
-                OpenAI Compatible LLM
-
-                         │
-
-                 Model Response
-
-                         │
-     ┌───────────────────┼────────────────────┐
-     ▼                   ▼                    ▼
-
- Tool Validator     DLP Scrubber      Event Logging
-
-                         │
-                         ▼
-
-                  Safe Response
-                  
+```text
+                        ┌─────────────────────────┐
+                        │      User Request       │
+                        └────────────┬────────────┘
+                                     │
+                                     ▼
+                    ┌────────────────────────────────┐
+                    │        ZeroTrust.Agent         │
+                    │      AI Security Gateway       │
+                    └────────────┬───────────────────┘
+                                 │
+          ┌──────────────────────┼──────────────────────┐
+          │                      │                      │
+          ▼                      ▼                      ▼
+ ┌────────────────┐     ┌────────────────┐    ┌─────────────────┐
+ │ Intent Scanner │     │ Context Ledger │    │ Telemetry Engine│
+ │ Prompt Defense │     │ Redis Trust DB │    │ SQLite Logging  │
+ └────────────────┘     └────────────────┘    └─────────────────┘
+                                 │
+                                 ▼
+                 ┌────────────────────────────────┐
+                 │  OpenAI-Compatible LLM / Agent │
+                 └────────────────┬───────────────┘
+                                  │
+                                  ▼
+                     ┌──────────────────────────┐
+                     │      Model Response       │
+                     └────────────┬─────────────┘
+                                  │
+          ┌───────────────────────┼────────────────────────┐
+          │                       │                        │
+          ▼                       ▼                        ▼
+ ┌────────────────┐     ┌────────────────┐     ┌─────────────────┐
+ │ Tool Validator │     │ DLP Scrubber   │     │ Event Logger     │
+ │ Schema Checks  │     │ Secret Removal │     │ Threat Auditing  │
+ └────────────────┘     └────────────────┘     └─────────────────┘
+                                  │
+                                  ▼
+                    ┌──────────────────────────────┐
+                    │        Safe AI Response      │
+                    └──────────────────────────────┘
+```
 
 ## Quickstart
 
